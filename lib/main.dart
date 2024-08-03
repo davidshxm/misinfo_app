@@ -93,7 +93,7 @@ class NextPage extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Colors.blue,
+              color: Colors.white,
             ),
             width: size.width - 50,
             height: size.height - 100,

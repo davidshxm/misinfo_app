@@ -7,7 +7,7 @@ class ApiService {
   ApiService(this.baseUrl);
 
   Future<Map<String, dynamic>> fetchOutput() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:5000//output'));
+    final response = await http.get(Uri.parse('http://100.67.130.194:5000//output'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

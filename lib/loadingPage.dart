@@ -20,7 +20,7 @@ class _LoadingPageState extends State<LoadingPage> {
     // Navigate to the NextPage after 3 seconds
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => OutputScreen(userName: widget.userName,)),
+        MaterialPageRoute(builder: (context) => NextPage(userName: widget.userName,)),
       );
     });
   }

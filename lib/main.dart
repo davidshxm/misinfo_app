@@ -11,14 +11,68 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
+        primarySwatch: Colors.blue,
       ),
-      home: LoadingPage(),
+      home: LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _nameController = TextEditingController();
+
+  void _navigateToLoadingPage() {
+    final name = _nameController.text;
+    if (name.isNotEmpty) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => LoadingPage(userName: name),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: 'Enter your name',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.text,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _navigateToLoadingPage,
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class LoadingPage extends StatefulWidget {
+  final String userName;
+
+  LoadingPage({required this.userName});
+
   @override
   _LoadingPageState createState() => _LoadingPageState();
 }
@@ -27,7 +81,7 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     super.initState();
-    // Navigate to the next page after 3 seconds
+    // Navigate to the NextPage after 3 seconds
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => NextPage()),
@@ -43,7 +97,7 @@ class _LoadingPageState extends State<LoadingPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Welcome',
+              'Welcome, ${widget.userName}!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -56,6 +110,7 @@ class _LoadingPageState extends State<LoadingPage> {
 }
 
 class NextPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     // Get the screen size
@@ -76,7 +131,7 @@ class NextPage extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Next Page',
+                'Misinformation',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -97,7 +152,15 @@ class NextPage extends StatelessWidget {
             ),
             width: size.width - 50,
             height: size.height - 100,
-
+            child: Center(
+              child: Text(
+                'No Flagged Information',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
         ),
       ),

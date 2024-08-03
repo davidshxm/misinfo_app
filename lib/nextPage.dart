@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'api_service.dart'; // Ensure this import is correct
 import 'flag.dart';
+=======
+import 'flag.dart'; // Ensure this import is correct
+>>>>>>> Stashed changes
 
 class OutputScreen extends StatefulWidget {
   final String userName;
@@ -11,13 +15,28 @@ class OutputScreen extends StatefulWidget {
   _OutputScreenState createState() => _OutputScreenState();
 }
 
+<<<<<<< Updated upstream
 class _OutputScreenState extends State<OutputScreen> {
   final _nameController = TextEditingController();
   List<String> _text = [];
+=======
+class NextPage extends StatefulWidget {
+  final String userName; // Add userName parameter
+
+  NextPage({required this.userName}); // Update constructor
+
+  @override
+  _NextPageState createState() => _NextPageState();
+}
+
+class _NextPageState extends State<NextPage> {
+  final _nameController = TextEditingController();
+>>>>>>> Stashed changes
 
   @override
   void initState() {
     super.initState();
+<<<<<<< Updated upstream
     _nameController.text = widget.userName;
     _loadData();
   }
@@ -32,6 +51,9 @@ class _OutputScreenState extends State<OutputScreen> {
       print('Error fetching data: $e');
       // Optionally, you can show an error message to the user
     }
+=======
+    _nameController.text = widget.userName; // Pre-fill the text field with userName
+>>>>>>> Stashed changes
   }
 
   void _navigateToFlagPage(String index) {
@@ -41,6 +63,7 @@ class _OutputScreenState extends State<OutputScreen> {
     print('Flag Index: $index');
 
     if (name.isNotEmpty) {
+      print("test");
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => Flag(flagNum: index),
@@ -54,6 +77,7 @@ class _OutputScreenState extends State<OutputScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    List<String> text = List<String>.filled(140, "hello");
 
     return Scaffold(
       appBar: AppBar(
@@ -93,38 +117,43 @@ class _OutputScreenState extends State<OutputScreen> {
             height: size.height - 100,
             child: Column(
               children: [
-                if (_text.isEmpty)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'No Flagged Information',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'No Flagged Information',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
+                ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: _text.length,
+                    itemCount: text.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: ElevatedButton(
                           onPressed: () {
+<<<<<<< Updated upstream
                             _navigateToFlagPage('$index');
                           },
+=======
+                            Navigator.push(
+                              context,
+                            MaterialPageRoute(
+                              builder: (context) => Flag(userName: index.toString())),
+                        );
+                         },
+>>>>>>> Stashed changes
                           child: Text(
-                            _text[index],
+                            text[index],
                             style: TextStyle(fontSize: 18),
                           ),
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size(150, 50), // Set the minimum size for width and height
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15), // Keep the rounded edges
-                            ),
+                            minimumSize: Size(double.infinity, 50),
                           ),
                         ),
                       );
@@ -138,4 +167,8 @@ class _OutputScreenState extends State<OutputScreen> {
       ),
     );
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

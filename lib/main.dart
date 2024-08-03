@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+
       ),
       home: LoadingPage(),
     );
@@ -63,13 +63,42 @@ class NextPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Next Page'),
+        backgroundColor: Color(0xffafbcc0),
+        title: Center(
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/logo.png"), // Ensure the path is correct
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                'Next Page',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
-      body: Center(
-        child: Container(
-          width: size.width - 50,
-          height: size.height - 100,
-          color: Colors.blue,
+      body: Container(
+        color: Color(0xffafbcc0), // Set the background color here
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Colors.blue,
+            ),
+            width: size.width - 50,
+            height: size.height - 100,
+              
+          ),
         ),
       ),
     );

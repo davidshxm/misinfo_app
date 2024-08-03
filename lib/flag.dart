@@ -27,7 +27,7 @@ class _FlagState extends State<Flag> {
             height: 100,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/red alert.png"), // Ensure this asset exists
+                image: AssetImage("assets/redAlert.png"), // Ensure this asset exists
                 fit: BoxFit.cover,
               ),
             ),

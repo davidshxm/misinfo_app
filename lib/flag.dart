@@ -23,13 +23,14 @@ class _FlagState extends State<Flag> {
         backgroundColor: Color.fromARGB(255, 255, 0, 0), // Red color
         title: Center(
           child: Container(
-            width: 100,
-            height: 100,
+            width: 70,
+            height: 70,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/redAlert.png"), // Ensure this asset exists
                 fit: BoxFit.cover,
               ),
+              
             ),
             child: Center(
               child: Text(

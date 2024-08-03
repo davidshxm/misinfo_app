@@ -33,22 +33,24 @@ class NextPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        color: Color(0xffb3c1c5), // Set the background color here
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Colors.white,
-            ),
-            width: size.width - 50,
-            height: size.height - 100,
-            child: Center(
-              child: Text(
-                'No Flagged Information',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xffb3c1c5), // Set the background color here
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Colors.white,
+              ),
+              width: size.width - 50,
+              height: size.height - 100,
+              child: Center(
+                child: Text(
+                  'No Flagged Information',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

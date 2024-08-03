@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Flag extends StatefulWidget{
 
-  final String userName;
+  final String flagNum;
 
-  Flag({required this.userName});
+  Flag({required this.flagNum});
 
   @override
   _Flag createState() => _Flag();
@@ -20,7 +20,6 @@ class _Flag extends State<Flag>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      
     );
   }
 }

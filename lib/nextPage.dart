@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'flag.dart';
+
 class NextPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -63,9 +65,18 @@ class NextPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text(
-                          text[index],
-                          style: TextStyle(fontSize: 18),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Flag(flagNum: '$index',);
+                          },
+                          child: Text(
+                            text[index],
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity,
+                                50), // Make button fill available width
+                          ),
                         ),
                       );
                     },

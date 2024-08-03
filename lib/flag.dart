@@ -19,31 +19,6 @@ class _FlagState extends State<Flag> {
     // You can perform additional setup here if needed
   }
 
-  void _navigateToNextPage() {
-    final name = _nameController.text;
-
-    if (name.isNotEmpty) {
-      print("test");
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => NextPage(userName: name),
-        ),
-      );
-    } else {
-      print('Name is empty. Navigation not triggered.');
-    }
-  }
-
-  void _navigateBackWithResult() {
-    final name = _nameController.text;
-
-    if (name.isNotEmpty) {
-      Navigator.of(context).pop(name); // Pass data when navigating back
-    } else {
-      Navigator.of(context).pop(); // Just navigate back if no data
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,22 +37,40 @@ class _FlagState extends State<Flag> {
           ),
         ),
       ),
+
+
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_back),
-            label: 'Back',
+            icon: Icon(Icons.save), // Add an icon if needed
+            label: 'Save for later',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.navigate_next),
-            label: 'Next',
+            icon: Icon(Icons.delete), // Add an icon if needed
+            label: 'Delete',
           ),
         ],
-        onTap: (index) {
+        onTap: (int index) {
           if (index == 0) {
-            _navigateBackWithResult(); // Handle back navigation
+            // Handle 'Save for later' action
+            print('Save for later tapped');
+            // Navigate back if possible
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              // If no route to pop, handle accordingly (e.g., show a message)
+              print('No route to pop');
+            }
           } else if (index == 1) {
-            _navigateToNextPage(); // Handle next navigation
+            // Handle 'Delete' action
+            print('Delete tapped');
+            // Navigate back if possible
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              // If no route to pop, handle accordingly (e.g., show a message)
+              print('No route to pop');
+            }
           }
         },
       ),
@@ -85,7 +78,9 @@ class _FlagState extends State<Flag> {
         padding: const EdgeInsets.all(30.0),
         child: Center(
           child: Text(
-            'This is flag number ${widget.flagNum}',
+            'WARNING! '
+            'This information may not be accurate. Please review the following source: ',
+            //''
             style: TextStyle(fontSize: 24),
           ),
         ),
@@ -93,6 +88,7 @@ class _FlagState extends State<Flag> {
     );
   }
 }
+
 
 /* import 'package:flutter/material.dart';
 import 'nextPage.dart'; // Ensure this import is correct
@@ -108,21 +104,25 @@ class Flag extends StatefulWidget {
 
 class _FlagState extends State<Flag> {
   final _nameController = TextEditingController();
+  bool delete = false;
 
   @override
   void initState() {
     super.initState();
     // You can perform additional setup here if needed
   }
-
+  
   void _navigateToNextPage(String index) {
     final name = _nameController.text;
+    print('Navigate to Flag Page');
+    print('Entered Name: $name');
+    print('Flag Index: $index');
 
     if (name.isNotEmpty) {
       print("test");
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => NextPage(userName: name), // fix red underline
+          builder: (context) =>(userName: index),
         ),
       );
     } else {
@@ -144,36 +144,50 @@ class _FlagState extends State<Flag> {
                 image: AssetImage("assets/redAlert.png"), // Ensure this asset exists
                 fit: BoxFit.cover,
               ),
-              
             ),
           ),
         ),
       ),
-      /*bottomNavigationBar: BottomNavigationBar(
-        child: ElevatedButton(
-                          onPressed: () {
-                            _navigateToNextPage('$name'); // Pass the index
-                          },
-                          child: Text(
-                            text[name],
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
-                          ),
-                        ),
-      ) //bottom navigation bar
-      */
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Center(
-          child: Text(
-            'This is flag number ${widget.flagNum}',
-            style: TextStyle(fontSize: 24),
-          ),
+  
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+        BottomNavigationBarItem(
+         icon: SizedBox.shrink(), // Hide the icon by setting an empty widget
+          label: 'Save for later',
         ),
-      ),
-    );
+        BottomNavigationBarItem(
+         icon: SizedBox.shrink(), // Hide the icon by setting an empty widget
+           label: 'Delete',
+         ),
+         ],
+        
+        onTap: (int index) {
+          if (index == 0) {
+            // Handle 'Save for later' action
+            print('Save for later tapped');
+            // Navigate back if possible
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              // If no route to pop, handle accordingly (e.g., show a message)
+              print('No route to pop');
+            }
+          } else if (index == 1) {
+            // Handle 'Delete' action
+            print('Delete tapped');
+            // Navigate back if possible
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              // If no route to pop, handle accordingly (e.g., show a message)
+              print('No route to pop');
+            }
+          }
+        }
+
+        ),
+      );
   }
 }
+
 */

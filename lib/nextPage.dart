@@ -12,7 +12,7 @@ class NextPage extends StatefulWidget {
 
 class _NextPageState extends State<NextPage> {
   final _nameController = TextEditingController();
-
+  
   @override
   void initState() {
     super.initState();
@@ -21,8 +21,12 @@ class _NextPageState extends State<NextPage> {
 
   void _navigateToFlagPage(String index) {
     final name = _nameController.text;
+    print('Navigate to Flag Page');
+    print('Entered Name: $name');
+    print('Flag Index: $index');
 
     if (name.isNotEmpty) {
+      print("test");
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => Flag(flagNum: index),

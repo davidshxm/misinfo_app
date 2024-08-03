@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'api_service.dart'; // Import the ApiService class
+import 'api_service.dart';
 
 class Flag extends StatelessWidget {
   final String userName;
@@ -78,29 +78,17 @@ class NextPage extends StatefulWidget {
   _NextPageState createState() => _NextPageState();
 }
 
+
 class _NextPageState extends State<NextPage> {
   final _nameController = TextEditingController();
   List<String> _text = []; // Initialize the _text list
-  late ApiService _apiService; // Declare ApiService instance
+  late Future<String> _dataFuture;
 
   @override
   void initState() {
     super.initState();
     _nameController.text = widget.userName;
-    _apiService = ApiService('http://100.67.130.194:5000'); // Initialize ApiService with baseUrl
-    _fetchData(); // Fetch data after initializing ApiService
-  }
-
-  Future<void> _fetchData() async {
-    try {
-      final response = await _apiService.fetchOutput();
-      setState(() {
-        _text = List<String>.from(response['data']); // Update the list with fetched data
-      });
-    } catch (e) {
-      print('Error fetching data: $e');
-      // Handle error as needed, e.g., show an error message
-    }
+    _dataFuture = ApiService().fetchData();
   }
 
   @override
@@ -158,29 +146,56 @@ class _NextPageState extends State<NextPage> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: _text.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Flag(userName: _text[index]),
+                  child: FutureBuilder<String>(
+                    future: _dataFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        // Show "No Flagged Information" if no data
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'No Flagged Information',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        // Update _text list with the fetched data
+                        _text = [snapshot.data!];
+                        return ListView.builder(
+                          itemCount: _text.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Flag(userName: _text[index]),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  _text[index],
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(double.infinity, 50),
+                                ),
                               ),
                             );
                           },
-                          child: Text(
-                            _text[index],
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
-                          ),
-                        ),
-                      );
+                        );
+                      }
                     },
                   ),
                 ),

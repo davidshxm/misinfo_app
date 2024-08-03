@@ -40,6 +40,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   sqflite: ^2.3.3+1
   http: ^1.2.2
+  cupertino_http: ^1.5.1
 
 dev_dependencies:
   flutter_test:

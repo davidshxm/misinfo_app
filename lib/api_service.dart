@@ -2,26 +2,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl;
+  final String _baseUrl = 'http://100.67.130.194:5000/'; // Update with your Flask server URL
 
-  ApiService(this.baseUrl);
-
-  Future<Map<String, dynamic>> fetchOutput() async {
-    final url = Uri.parse('$baseUrl/'); // Use baseUrl for flexibility
+  Future<String> fetchData() async {
     try {
-      final response = await http.get(url);
+      final response = await http.get(Uri.parse('$_baseUrl/api/data'));
 
       if (response.statusCode == 200) {
         print("Working");
-        return json.decode(response.body); // Decode the JSON response
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return data['value'];
       } else {
-        print('Failed to load output: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        throw Exception('Failed to load output');
+        print("Fail");
+        throw Exception('Failed to load data');
       }
     } catch (e) {
-      print('Error: $e');
-      throw Exception('Failed to load output');
+      throw Exception('Failed to load data: $e');
     }
   }
 }

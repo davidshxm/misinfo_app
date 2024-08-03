@@ -63,7 +63,7 @@ class NextPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xffafbcc0),
+        backgroundColor: Color(0xffb3c1c5),
         title: Center(
           child: Container(
             width: 100,
@@ -88,7 +88,7 @@ class NextPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Color(0xffafbcc0), // Set the background color here
+        color: Color(0xffb3c1c5), // Set the background color here
         child: Center(
           child: Container(
             decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class NextPage extends StatelessWidget {
             ),
             width: size.width - 50,
             height: size.height - 100,
-              
+
           ),
         ),
       ),

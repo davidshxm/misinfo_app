@@ -5,11 +5,7 @@ class NextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get the screen size
     final size = MediaQuery.of(context).size;
-    List<int> text = [
-      1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6,
-      1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6,
-      1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6
-    ];
+    List<String> text = List<String>.filled(140, "hello");
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +16,7 @@ class NextPage extends StatelessWidget {
             height: 100,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/logo.png"), // Ensure the path is correct
+                image: AssetImage("assets/logo.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -50,21 +46,29 @@ class NextPage extends StatelessWidget {
             child: Column(
               children: [
                 Center(
-                  child: Text(
-                    'No Flagged Information',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'No Flagged Information',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        for (var i in text) Text(i.toString())
-                      ],
-                    ),
+                  child: ListView.builder(
+                    itemCount: text.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Text(
+                          text[index],
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

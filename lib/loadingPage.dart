@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'nextPage.dart'; // Ensure this import is correct
 import 'dart:async';
 
 import 'nextPage.dart';
@@ -19,7 +20,7 @@ class _LoadingPageState extends State<LoadingPage> {
     // Navigate to the NextPage after 3 seconds
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => NextPage(userName: widget.userName,)),
+        MaterialPageRoute(builder: (context) => OutputScreen(userName: widget.userName,)),
       );
     });
   }

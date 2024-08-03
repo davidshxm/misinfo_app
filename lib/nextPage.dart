@@ -1,98 +1,19 @@
 import 'package:flutter/material.dart';
-import 'utilities/database.dart'; // Ensure this import is correct
+import 'api_service.dart'; // Ensure this import is correct
 import 'flag.dart';
 
-class Flag extends StatelessWidget {
+class OutputScreen extends StatefulWidget {
   final String userName;
 
-  // Constructor with named parameter
-  Flag({required this.userName});
+  OutputScreen({required this.userName});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 0, 0), // Red color
-        title: Center(
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/redAlert.png"), // Ensure this asset exists
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-      ),
-
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.save), // Add an icon if needed
-            label: 'Save for later',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.delete), // Add an icon if needed
-            label: 'Delete',
-          ),
-        ],
-        onTap: (int index) {
-          if (index == 0) {
-            // Handle 'Save for later' action
-            print('Save for later tapped');
-            // Navigate back if possible
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              // If no route to pop, handle accordingly (e.g., show a message)
-              print('No route to pop');
-            }
-          } else if (index == 1) {
-            // Handle 'Delete' action
-            print('Delete tapped');
-            // Navigate back if possible
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              // If no route to pop, handle accordingly (e.g., show a message)
-              print('No route to pop');
-            }
-          }
-        },
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Center(
-          child: Text(
-            'WARNING! '
-            'This information may not be accurate. Please review the following source: ',
-            //''
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
-      ),
-    );
-  }
+  _OutputScreenState createState() => _OutputScreenState();
 }
 
-class NextPage extends StatefulWidget {
-  final String userName;
-
-  NextPage({required this.userName});
-
-  @override
-  _NextPageState createState() => _NextPageState();
-}
-
-class _NextPageState extends State<NextPage> {
+class _OutputScreenState extends State<OutputScreen> {
   final _nameController = TextEditingController();
-<<<<<<< Updated upstream
-  List<String> _text = ['David','David','David','David','David','David','David','David','David',];
-=======
->>>>>>> Stashed changes
+  List<String> _text = [];
 
   @override
   void initState() {
@@ -102,10 +23,15 @@ class _NextPageState extends State<NextPage> {
   }
 
   Future<void> _loadData() async {
-    final data = await DatabaseHelper.fetchData();
-    setState(() {
-      _text = data;
-    });
+    try {
+      final data = await ApiService('http://localhost:5000').fetchOutput();
+      setState(() {
+        _text = List<String>.from([data['output']]); // Adjust according to your API response
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Optionally, you can show an error message to the user
+    }
   }
 
   void _navigateToFlagPage(String index) {
@@ -117,7 +43,7 @@ class _NextPageState extends State<NextPage> {
     if (name.isNotEmpty) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => Flag(userName: index),
+          builder: (context) => Flag(flagNum: index),
         ),
       );
     } else {
@@ -188,17 +114,8 @@ class _NextPageState extends State<NextPage> {
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: ElevatedButton(
                           onPressed: () {
-<<<<<<< Updated upstream
                             _navigateToFlagPage('$index');
                           },
-=======
-                            Navigator.push(
-                              context,
-                            MaterialPageRoute(
-                              builder: (context) => Flag(userName: index.toString())),
-                        );
-                         },
->>>>>>> Stashed changes
                           child: Text(
                             _text[index],
                             style: TextStyle(fontSize: 18),
@@ -221,8 +138,4 @@ class _NextPageState extends State<NextPage> {
       ),
     );
   }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

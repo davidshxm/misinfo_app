@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'api_service.dart'; // Import the ApiService class
 
 class Flag extends StatelessWidget {
   final String userName;
 
-  // Constructor with named parameter
   Flag({required this.userName});
 
   @override
@@ -24,8 +24,6 @@ class Flag extends StatelessWidget {
           ),
         ),
       ),
-
-
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -41,21 +39,17 @@ class Flag extends StatelessWidget {
           if (index == 0) {
             // Handle 'Save for later' action
             print('Save for later tapped');
-            // Navigate back if possible
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             } else {
-              // If no route to pop, handle accordingly (e.g., show a message)
               print('No route to pop');
             }
           } else if (index == 1) {
             // Handle 'Delete' action
             print('Delete tapped');
-            // Navigate back if possible
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             } else {
-              // If no route to pop, handle accordingly (e.g., show a message)
               print('No route to pop');
             }
           }
@@ -67,7 +61,6 @@ class Flag extends StatelessWidget {
           child: Text(
             'WARNING! '
                 'This information may not be accurate. Please review the following source: ',
-            //''
             style: TextStyle(fontSize: 24),
           ),
         ),
@@ -77,9 +70,9 @@ class Flag extends StatelessWidget {
 }
 
 class NextPage extends StatefulWidget {
-  final String userName; // Add userName parameter
+  final String userName;
 
-  NextPage({required this.userName}); // Update constructor
+  NextPage({required this.userName});
 
   @override
   _NextPageState createState() => _NextPageState();
@@ -87,35 +80,32 @@ class NextPage extends StatefulWidget {
 
 class _NextPageState extends State<NextPage> {
   final _nameController = TextEditingController();
+  List<String> _text = []; // Initialize the _text list
+  late ApiService _apiService; // Declare ApiService instance
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.userName; // Pre-fill the text field with userName
+    _nameController.text = widget.userName;
+    _apiService = ApiService('http://100.67.130.194:5000'); // Initialize ApiService with baseUrl
+    _fetchData(); // Fetch data after initializing ApiService
   }
 
-  void _navigateToFlagPage(String index) {
-    final name = _nameController.text;
-    print('Navigate to Flag Page');
-    print('Entered Name: $name');
-    print('Flag Index: $index');
-
-    if (name.isNotEmpty) {
-      print("test");
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => Flag(userName: index),
-        ),
-      );
-    } else {
-      print('Name is empty. Navigation not triggered.');
+  Future<void> _fetchData() async {
+    try {
+      final response = await _apiService.fetchOutput();
+      setState(() {
+        _text = List<String>.from(response['data']); // Update the list with fetched data
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Handle error as needed, e.g., show an error message
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    List<String> text = List<String>.filled(140, "hello");
 
     return Scaffold(
       appBar: AppBar(
@@ -169,7 +159,7 @@ class _NextPageState extends State<NextPage> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: text.length,
+                    itemCount: _text.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -178,11 +168,12 @@ class _NextPageState extends State<NextPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Flag(userName: index.toString())),
+                                builder: (context) => Flag(userName: _text[index]),
+                              ),
                             );
                           },
                           child: Text(
-                            text[index],
+                            _text[index],
                             style: TextStyle(fontSize: 18),
                           ),
                           style: ElevatedButton.styleFrom(

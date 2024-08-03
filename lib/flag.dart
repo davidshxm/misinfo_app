@@ -44,10 +44,13 @@ class _FlagState extends State<Flag> {
           ),
         ),
       ),
-      body: Center(
-        child: Text(
-          'This is flag number ${widget.flagNum}',
-          style: TextStyle(fontSize: 24),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Center(
+          child: Text(
+            'This is flag number ${widget.flagNum}',
+            style: TextStyle(fontSize: 24),
+          ),
         ),
       ),
     );

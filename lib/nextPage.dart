@@ -82,13 +82,25 @@ class NextPage extends StatefulWidget {
 class _NextPageState extends State<NextPage> {
   final _nameController = TextEditingController();
   List<String> _text = []; // Initialize the _text list
-  late Future<String> _dataFuture;
+  late ApiService _apiService;
+
 
   @override
   void initState() {
     super.initState();
     _nameController.text = widget.userName;
-    _dataFuture = ApiService().fetchData();
+    _apiService = ApiService();
+    _apiService.startFetching((fetchedData) {
+      setState(() {
+        _text = [fetchedData]; // Update _text list with fetched data
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _apiService.stopFetching();
+    super.dispose();
   }
 
   @override
@@ -133,69 +145,43 @@ class _NextPageState extends State<NextPage> {
             height: size.height - 100,
             child: Column(
               children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'No Flagged Information',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                Expanded(
+                  child: _text.isEmpty
+                      ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'No Flagged Information',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: FutureBuilder<String>(
-                    future: _dataFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        // Show "No Flagged Information" if no data
-                        return Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'No Flagged Information',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        // Update _text list with the fetched data
-                        _text = [snapshot.data!];
-                        return ListView.builder(
-                          itemCount: _text.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Flag(userName: _text[index]),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  _text[index],
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(double.infinity, 50),
-                                ),
+                  )
+                      : ListView.builder(
+                    itemCount: _text.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Flag(userName: _text[index]),
                               ),
                             );
                           },
-                        );
-                      }
+                          child: Text(
+                            _text[index],
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 50),
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ),

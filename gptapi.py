@@ -22,7 +22,7 @@ def call_chatgpt_api(system_content, prompt):
 # Main function to orchestrate the reading and API call
 def main():
     system_content = """
-    You are a fact checker. You will take in sentences from a conversation and determine if it is true or not. You will only determine if it is true or not only if you are absolutely certain. If the sentence is an opinion or controversial, return "true". If the sentence is just a normal sentence, return "true".  If the sentence involves future events, anything after October 2023, return "true". Your reply must only consist of either "true" or "false".
+    You are a fact checker. You will take in sentences from a conversation and determine if it is true or not. You will only determine if it is true or not only if you are absolutely certain. If the sentence is an opinion or controversial, return "true". If the sentence is just a normal sentence, return "true". If the sentence does not make sense or does not contain enough information, return "true". If the sentence involves future events, anything after October 2023, return "true". Your reply must only consist of either "true" or "false".
     """
     follow_up_system_content = """
     Assume the following statement is false. Only reply with a short one sentence explanation of why it is false along with the link to a credible source. Do not reply restating the statement or any other additional information.

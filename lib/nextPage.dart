@@ -114,7 +114,7 @@ class _NextPageState extends State<NextPage> {
             ),
             child: Center(
               child: Text(
-                'Misinformation',
+                'Misinfo',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,

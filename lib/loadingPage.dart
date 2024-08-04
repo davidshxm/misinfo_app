@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'nextPage.dart'; // Ensure this import is correct
 import 'dart:async';
 
-import 'nextPage.dart';
-
 class LoadingPage extends StatefulWidget {
   final String userName;
 

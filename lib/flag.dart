@@ -62,12 +62,13 @@ class Flag extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Text(sourceResponse),
               Text(
                 'WARNING! '
                     'This information may not be accurate. Please review the following source: ',
                 style: TextStyle(fontSize: 24),
               ),
+              Text(sourceResponse,
+              style: TextStyle(fontSize: 18),),
             ],
           ),
         ),

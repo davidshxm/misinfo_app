@@ -5,7 +5,7 @@ import threading
 from google.cloud import speech
 
 # Set up Google Cloud client
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\\xingf\\Downloads\\inlaid-crane-431502-u5-c9586c67f276.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/davidshim/Downloads/inlaid-crane-431502-u5-c9586c67f276.json"
 client = speech.SpeechClient()
 
 # Audio recording parameters

@@ -5,12 +5,11 @@ import 'package:http/http.dart' as http;
 class ApiService {
   final String _baseUrl = 'http://127.0.0.1:5000/'; // Update with your machine's IP address
   Timer? _timer;
-  final Duration _fetchInterval = Duration(seconds: 10); // Adjust the interval as needed
+  final Duration _fetchInterval = Duration(seconds: 2); // Adjust the interval as needed
 
   Future<String> fetchData() async {
     try {
       final response = await http.get(Uri.parse(_baseUrl));
-
       if (response.statusCode == 200) {
         print("Working");
         final Map<String, dynamic> data = jsonDecode(response.body);
